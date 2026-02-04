@@ -18,7 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-const articleRoutes = require('./routes/article');
+const articleRoutes = require('./routes/articles');
+app.use('/', articleRoutes);
 
 app.use('/', articleRoutes);
 app.use('/article', articleRoutes);

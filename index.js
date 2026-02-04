@@ -16,18 +16,21 @@ const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+const con = require('./utils/db');
 
 const articleRoutes = require('./routes/articles');
-app.use('/', articleRoutes);
+app.use('/articles', articleRoutes);
 
 app.use('/', articleRoutes);
 app.use('/article', articleRoutes);
 
 con.connect((err) => {
-    if(err) throw err;
-    console.log("Connected to MySQL database!");
-})
+  if (err) {
+    console.error('MySQL connection error:', err);
+    return;
+  }
+  console.log('Connected to MySQL database!');
+});
 
 app.get('/author/:author_id', (req, res) => {
     let query = `SELECT *, article.name as article_name, author.name as author_name FROM articles INNER JOIN author ON author_id = author.id WHERE author_id='${req.params.author_id}'`;
